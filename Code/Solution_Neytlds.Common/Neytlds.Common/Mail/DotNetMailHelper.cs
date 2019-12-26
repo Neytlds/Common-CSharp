@@ -4,10 +4,23 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-namespace Neytlds.Common
+namespace Neytlds.Common.Mail
 {
-    public class EMailHelper
+    /// <summary>
+    /// 基于 System.Net.Mail.SmtpClient 的邮件操作（已过时）
+    /// </summary>
+    public class DotNetMailHelper
     {
+        public DotNetMailHelper() { }
+        public DotNetMailHelper(string sendEMailHost, string sendEMailAddress, string sendEMailPwd)
+        {
+            SendEmailHost = sendEMailHost;
+            SendEmailAddress = sendEMailAddress;
+            SendEmailPwd = sendEMailPwd;
+        }
+        public string SendEmailHost { get; set; }
+        public string SendEmailAddress { get; set; }
+        public string SendEmailPwd { get; set; }
         /// <summary>
         /// 异步发送邮件
         /// </summary>
@@ -27,14 +40,12 @@ namespace Neytlds.Common
         /// <param name="content">邮件内容</param>
         public void SendEmail(List<string> msgToEmail, string title, string content)
         {
-            var sendEmailAddress = "abc@efg.com";
-            var sendEmailPwd = "pwd";
             var client = new SmtpClient
             {
-                Host = "smtp.qq.com",
+                Host = SendEmailHost,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(sendEmailAddress, sendEmailPwd),
+                Credentials = new NetworkCredential(SendEmailAddress, SendEmailPwd),
                 EnableSsl = true
             };
             var milMessage = new MailMessage
@@ -45,7 +56,7 @@ namespace Neytlds.Common
                 BodyEncoding = Encoding.UTF8,
                 IsBodyHtml = true,
                 Priority = MailPriority.High,
-                From = new MailAddress(sendEmailAddress),
+                From = new MailAddress(SendEmailAddress),
             };
             msgToEmail.ForEach(e => milMessage.To.Add(new MailAddress(e)));
             client.Send(milMessage);
