@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Configuration;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 
 namespace Neytlds.Common.DB
@@ -20,7 +19,7 @@ namespace Neytlds.Common.DB
         /// <summary>
         /// 存储缓存参数
         /// </summary>
-        public static Hashtable parmCache { get; set; } = Hashtable.Synchronized(new Hashtable());
+        public static Hashtable ParmCache { get; set; } = Hashtable.Synchronized(new Hashtable());
 
         /// <summary>
         /// 执行数据库修改操作
@@ -149,7 +148,7 @@ namespace Neytlds.Common.DB
         /// <param name="cmdParms">要缓存的 SqlParameter 数组</param>
         public static void CacheParameters(string cacheKey, params SqlParameter[] commandParameter)
         {
-            parmCache[cacheKey] = commandParameter;
+            ParmCache[cacheKey] = commandParameter;
         }
 
         /// <summary>
@@ -159,9 +158,9 @@ namespace Neytlds.Common.DB
         /// <returns>缓存在 SqlParameter 的数组</returns>
         public static SqlParameter[] GetCachedParameters(string cacheKey)
         {
-            var cachedParms = (SqlParameter[])parmCache[cacheKey];
+            var cachedParms = (SqlParameter[])ParmCache[cacheKey];
 
-            if (cachedParms == null) { return null; }
+            if (cachedParms == null) { return new SqlParameter[0]; }
 
             var clonedParms = new SqlParameter[cachedParms.Length];
 

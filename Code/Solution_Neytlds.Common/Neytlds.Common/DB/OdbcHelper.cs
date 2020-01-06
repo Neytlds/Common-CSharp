@@ -19,7 +19,7 @@ namespace Neytlds.Common.DB
         /// <summary>
         /// 存储缓存参数
         /// </summary>
-        public static Hashtable parmCache { get; set; } = Hashtable.Synchronized(new Hashtable());
+        public static Hashtable ParmCache { get; set; } = Hashtable.Synchronized(new Hashtable());
 
         /// <summary>
         /// 执行数据库修改操作
@@ -148,7 +148,7 @@ namespace Neytlds.Common.DB
         /// <param name="cmdParms">要缓存的 OdbcParameter 数组</param>
         public static void CacheParameters(string cacheKey, params OdbcParameter[] commandParameter)
         {
-            parmCache[cacheKey] = commandParameter;
+            ParmCache[cacheKey] = commandParameter;
         }
 
         /// <summary>
@@ -158,9 +158,9 @@ namespace Neytlds.Common.DB
         /// <returns>缓存在 OdbcParameter 的数组</returns>
         public static OdbcParameter[] GetCachedParameters(string cacheKey)
         {
-            var cachedParms = (OdbcParameter[])parmCache[cacheKey];
+            var cachedParms = (OdbcParameter[])ParmCache[cacheKey];
 
-            if (cachedParms == null) { return null; }
+            if (cachedParms == null) { return new OdbcParameter[0]; }
 
             var clonedParms = new OdbcParameter[cachedParms.Length];
 

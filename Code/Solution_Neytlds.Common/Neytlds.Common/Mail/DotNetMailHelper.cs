@@ -30,7 +30,8 @@ namespace Neytlds.Common.Mail
         public void SendEmailAsync(List<string> msgToEmail, string title, string content)
         {
             Action<List<string>, string, string> action = SendEmail;
-            action.BeginInvoke(msgToEmail, title, content, null, null);
+            IAsyncResult result = action.BeginInvoke(msgToEmail, title, content, null, null);
+            action.EndInvoke(result);
         }
         /// <summary>
         /// 同步发送邮件
