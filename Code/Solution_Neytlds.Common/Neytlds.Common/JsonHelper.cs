@@ -8,9 +8,17 @@ using System.Linq;
 
 namespace Neytlds.Common
 {
+    /// <summary>
+    /// 基于 Newtonsoft 的 json 帮助类
+    /// </summary>
     public static class JsonHelper
     {
-        public static string SerializeObject(object o)
+        /// <summary>
+        /// 将对象序列化为 json 字符串
+        /// </summary>
+        /// <param name="obj">要序列化的对象</param>
+        /// <returns>序列化后的 json 字符串</returns>
+        public static string SerializeObject(object obj)
         {
             var settings = new JsonSerializerSettings
             {
@@ -23,10 +31,16 @@ namespace Neytlds.Common
                 //ContractResolver = new DefaultContractResolver(), // 不更改元数据key的大小写
                 //ContractResolver = new CamelCasePropertyNamesContractResolver(),
             };
-            return JsonConvert.SerializeObject(o, settings);
+            return JsonConvert.SerializeObject(obj, settings);
         }
 
-        public static T DeserializeObject<T>(string value) where T : class
+        /// <summary>
+        /// 将 json 字符串反序列化为给定对象
+        /// </summary>
+        /// <typeparam name="T">反序列化后的对象类型</typeparam>
+        /// <param name="jsonString">json 字符串</param>
+        /// <returns>反序列化后的对象</returns>
+        public static T DeserializeObject<T>(string jsonString) where T : class
         {
             var settings = new JsonSerializerSettings
             {
@@ -37,20 +51,12 @@ namespace Neytlds.Common
                 Converters = new List<JsonConverter> { new DecimalConverter() },
                 ContractResolver = new OrderedContractResolver(),
             };
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(value, settings);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-                //return null;
-            }
+            return JsonConvert.DeserializeObject<T>(jsonString, settings);
         }
     }
 
     /// <summary>
-    /// Decimal保留两位小数 ep.:5.00
+    /// decimal 保留两位小数 ep.:5.00
     /// </summary>
     class DecimalConverter : JsonConverter
     {
@@ -103,6 +109,7 @@ namespace Neytlds.Common
     {
         public CustomDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff"; }
     }
+
     public class CustomDateConverter : IsoDateTimeConverter
     {
         public CustomDateConverter() { DateTimeFormat = "yyyy-MM-dd"; }
