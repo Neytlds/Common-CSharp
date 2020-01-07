@@ -29,12 +29,12 @@ namespace Neytlds.Common.Snowflake
             // sanity check for workerId
             if (workerId > MaxWorkerId || workerId < 0)
             {
-                throw new ArgumentException(string.Format("worker Id can't be greater than {0} or less than 0", MaxWorkerId));
+                throw new ArgumentException($"worker Id can't be greater than {MaxWorkerId} or less than 0");
             }
 
             if (datacenterId > MaxDatacenterId || datacenterId < 0)
             {
-                throw new ArgumentException(string.Format("datacenter Id can't be greater than {0} or less than 0", MaxDatacenterId));
+                throw new ArgumentException($"datacenter Id can't be greater than {MaxDatacenterId} or less than 0");
             }
 
         }
