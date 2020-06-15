@@ -38,9 +38,9 @@ namespace Neytlds.Common
         /// 将 json 字符串反序列化为给定对象
         /// </summary>
         /// <typeparam name="T">反序列化后的对象类型</typeparam>
-        /// <param name="jsonString">json 字符串</param>
+        /// <param name="str_json">json 字符串</param>
         /// <returns>反序列化后的对象</returns>
-        public static T DeserializeObject<T>(string jsonString) where T : class
+        public static T DeserializeObject<T>(string str_json) where T : class
         {
             var settings = new JsonSerializerSettings
             {
@@ -51,7 +51,7 @@ namespace Neytlds.Common
                 Converters = new List<JsonConverter> { new DecimalConverter() },
                 ContractResolver = new OrderedContractResolver(),
             };
-            return JsonConvert.DeserializeObject<T>(jsonString, settings);
+            return JsonConvert.DeserializeObject<T>(str_json, settings);
         }
     }
 
